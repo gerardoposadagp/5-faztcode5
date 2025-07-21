@@ -1,0 +1,181 @@
+
+-------
+
+npx shadcn@latest add "https://v0.dev/chat/b/b_H5PyWd0a8YJ?token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..uQ3haIJPC2oda2Oz._KlAbfcBw59zKrk55xeDZzBniqCj3baANGPZuHe9VsxLgpQPGWf1xxpU66E.poApbN4iXxJQn3jr4iJXEA"
+npx shadcn@latest add "https://v0.dev/chat/b/b_H5PyWd0a8YJ?token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..3R0taC_CD8go63jT.pJK2BMkrj91E8dnP_yJZU4Ti3yngyn8eMu_KxwiCIqjuLtAKPxJBXsvUzws.7rDDpCSf87hgYIcyMgbgiw"
+va cambiando?????
+
+
+-------------------------------
+troubleshooting dependencies
+npm warn peer vite@"^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0" from @vitejs/plugin-react@4.7.0
+significa que el plugin @vitejs/plugin-react@4.7.0 necesita una versión de vite que esté dentro del rango:
+^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
+
+npm install vite@^7.0.0
+
+Si aún tienes problemas, podrías intentar limpiar la caché y reinstalar:
+rm -rf node_modules package-lock.json
+npm cache clean --force
+npm install
+
+------------
+
+npm create vite@latest my-app
+cd my-app
+npm install
+npm run dev
+
+Esto te levanta un servidor de desarrollo en http://localhost:5173 (por defecto).
+
+------------
+
+how can I check that effectively the app is only fetching the chunk of rows we want per page?
+
+Excellent question. Verifying that only the necessary data is being transferred is key to confirming that our server-side pagination is working efficiently. The best place to check this is in your browser's developer tools, specifically the **Network** tab.
+
+    Here’s how you can do it step-by-step:
+
+    1. Open your browser's developer tools (usually by right-clicking on the page and selecting "Inspect" or pressing `F12`).
+    2. Go to the **Network** tab.
+    3. You might want to click the **"Fetch/XHR"** filter to hide other requests (like images and scripts) and only see the data requests made to your API.
+    4. Navigate to the products page or, if you're already there, change the page using the pagination controls at the bottom.
+
+
+    You will see a new request appear in the list, likely named `products?page=...`. Click on it.
+
+    Now, inspect two things:
+
+    - **Request URL:** In the "Headers" tab, you'll see the full URL that was requested. It will clearly show the `page` and `limit` parameters being sent to the server (e.g., `.../api/products?page=2&limit=50...`). This confirms the client is asking for a specific chunk.
+    - **Response Payload:** In the "Preview" or "Response" tab, you can see the actual JSON data the server sent back. You will find that the `products` array contains exactly 50 items (or whatever your `PAGE_LIMIT` is), not the entire list. You'll also see the `count` property, which tells the client the total number of products available for calculating the pagination.
+
+By following these steps, you can be 100% certain that your application is only fetching one page of data at a time, making it scalable and efficient regardless of how many products are in your database.
+
+----------------
+
+### How to See Virtualization in Action
+
+Here is a simple way to prove that virtualization is working, using your browser's developer tools:
+
+1. **Right-click** on one of the product rows in the list and choose **"Inspect"**. This will open the developer tools and highlight the `div` for that specific row.
+2. In the **Elements** panel, find the parent `div` that holds all the rows (it will have a `style` attribute with a large `height` in pixels).
+3. **Scroll** the products list up and down slowly.
+
+
+As you scroll, watch the highlighted row elements in the developer tools. You will notice two key things:
+
+- **The `transform: translateY(...)` value on each row `div` will change rapidly.** This is the virtualization library repositioning the existing handful of `div`s to give the *illusion* of a long scrolling list.
+- **The number of row `div`s in the DOM stays small and constant.** Even though you are scrolling through 50 products, you will only ever see about 10-15 `div`s being rendered and reused.
+
+---------------
+
+En cuanto a la limpieza, aquí tienes algunas consideraciones:
+
+2. **`console.log` en las Server Actions:** Añadí algunos `console.log` en `app/projects/actions.ts` y `app/tasks/actions.ts` (por ejemplo, `console.log("Executing addProject on server...")`). Estos son útiles para depuración, pero puedes eliminarlos en un entorno de producción para tener logs más limpios y reducir un poco el ruido. No afectan la funcionalidad.
+3. **`export const revalidate = false` en `app/projects/page.tsx` y `app/tasks/page.tsx`:** Esto es una configuración intencional de Next.js para controlar el comportamiento de caché de la página. Lo hemos puesto en `false` para que la página se cachee indefinidamente hasta que se revalide explícitamente (por ejemplo, con el botón "Recargar"). No debes eliminarlo si quieres mantener este comportamiento de caché.
+4. **`prefetch={false}` en `components/dashboard/sidebar.tsx`:** Esto también es una optimización intencional para evitar que Next.js precargue las páginas al pasar el ratón por encima de los enlaces de la barra lateral, lo que causaba recargas de datos no deseadas. No debes eliminarlo si quieres mantener este comportamiento.
+
+-----
+========================================================================
+PROMPT
+========================================================================
+
+FORK 'LANDING/DASHBOARD/ROLES/PERFIL'
+-----------------------
+
+con imagen de dribble
+crea una aplicacion de administracion de proyectos y tareas usando next.js, chadcn que tenga landing page con CTA, paginas de signin, signup y dashboard, manejo de Multiples roles por usuario y manejo de perfil de usuarios. 
+
+ponle titulos a las opciones de sidebar
+
+baja este y los elemetos a su izquierda 5px
+
+escogiendo el dropdownmenu
+adiciona iconos a 3 ultimos botones
+
+escogiendo dropdownmenu triger
+colocale un icono user
+
+FORK 'SIGNIN/SIGNUP'
+-----------------------
+
+crear paginas de:
+  - signup (email, contraseña y confirmar contraseña), sin envio de correo para confirmar. Multiples roles por usuario: 'sysadmin', 'admin', 'user' (tabla 'roles'). Cuando un usuario haga signup por primera vez:
+    - debe quedar con rol 'user' (tabla 'user_roles')
+    - debe adicionar a la tabla 'user_profiles' columna 'profile_status' (bolean) el valor 0
+  - signin (email contraseña). Si el signin es exitoso y 'profile_status' es 0, debe presentar formulario pidiendo nombre completo, direccion, telefono, edad y activo (bolean, con valor 1 por defecto), con los botones 'Guardar' y 'Ahora no'. Si guarda, colocar profile_status en 1.
+  - paginas deben presentarse en modal
+  
+  escogiendo dropdownmenucontent
+  Si el usuario está identificado mostar opciones 'Mi Perfil', 'Ajustes', 'Soporte' y 'Cerrar Sesión' que dispara el proceso de signout. Estando identificado, debe mostrar sus roles en el header. Si no está identificado, mostrar opciones 'Soporte' e 'Identificarse' que llama a pagina de signin en modal.
+
+  Escoger la opcion Mi Perfil.
+  Al seleccinar la opción Mi Perfil presentar en modal formulario de profile con opciones Guardar y Cancelar, guardando la data y cerrando el modal. implementar el modal de perfil como un 'componente de diálogo cliente-side' directamente dentro del `DashboardHeader`. 
+
+  la ventana modal del profile debe aparecer en modal sobre el dashboard que se debe alcazar a ver con un gris mas transparente. despues de guardar o cancelar no debe recargarse el dashboard
+
+  implementar el modal de perfil como un **componente de diálogo cliente-side** directamente dentro del `DashboardHeader`.
+
+  Esto significa que el modal de perfil se abrirá y cerrará manejando un estado local, sin depender de la navegación de Next.js para su visualización, lo cual es el patrón que ya funciona en tu aplicación.
+
+
+FORK 'DASHBOARD, TAREAS Y PROYECTOS CON CACHE'
+-----------------------
+// hay 2 tecnicas de cache: useEffect() (mejor si hay filtros y manejo de sesiones) o fetch en Server Components (mejor si son registros publicos). preguntarle a chatgpt la diferencia
+
+crea la pagina de proyectos dentro del dashboard. implementa cache de datos para evitar recarga permanentemente. usa useEffect() en Client Component. pon boton de reload con icono para recargar
+
+crea la pagina de tareas dentro del dashboard. implementa cache de datos para evitar recarga permanentemente. usa useEffect() en Client Component. pon boton de reload con icono para recargar
+
+en el dashboard implementa cache de datos para evitar recarga permanentemente. usa fetch() en Server Component. pon boton de reload con icono para recargar
+OJO -> en desarrollo continua cargando siempre de la db pero en produccion el comportamiento ya debe ser el esperado
+
+FORK 'FORMULARIOS'
+-----------------------
+
+crea formulario para adicionar/editar proyectos 
+las operaciones de añadir, editar y eliminar deben actualizar el DOM de forma instantánea sin recargar la página y recargar el dashboard. mensaje de confirmación al eliminar en modal
+
+haz la integracion
+
+editar y adicionar en supabase. implementa inmediato
+
+quita */
+
+crear relacion entre tablas
+subiendo la imagen de la relación entre projects y projects_status por status_id
+  -> implement 
+
+crea formulario para adicionar/editar tareas. las operaciones de añadir, editar y eliminar deben actualizar el DOM de forma instantánea sin recargar la página y recargar el dashboard actualiza dashboard
+
+aqui aparecía ajustada a la la derecha la pagina de tareas
+
+reescribe project-chart.tsx que está truncado
+
+FORK 'ADMON USUARIOS'
+-----------------------
+// meter usuarios de administración desde Supabase
+- adiciona al sidebar la opcion 'Admon usuarios'. solo los usuarios con rol sysadmin y admin pueden ver esta opción
+- crea pagina de administracion de usuarios:
+  - solo los usuarios con rol sysadmin y admin tienen acceso a esta página
+  - muestra tabla en la que se podrán hacer las operaciones crud de los usuarios. 
+  - la tabla mostrará las columnas nombre completo, direccion, telefono, edad, activo, roles asignados y fecha de signup.
+  - implementa cache de datos para evitar recarga permanentemente. usa useEffect() en Client Component. 
+  - boton de reload con icono para recargar.
+  - Los íconos para agregar, editar y eliminar deben ser visibles, dependiendo del rol otorgado al usuario.
+  - las operaciones crud se podrán hacer sobre esta tabla así:
+    - sysadmin: all operations
+    - admin: Retrieve y Update.
+    - user: ninguna
+  
+crea pagina con formulario para adicionar/editar usuarios. usa grupo de Checkboxes para asignacion de roles. las operaciones de añadir, editar y eliminar deben actualizar el DOM de forma instantánea sin recargar la página. mensaje de confirmación al eliminar en modal. solo los usuarios con rol sysadmin y admin tienen acceso a esta página
+
+
+
+
+
+
+
+
+
+
