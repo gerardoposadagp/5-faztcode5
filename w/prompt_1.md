@@ -55,7 +55,7 @@ FORK 3 'DASHBOARD/HEADER/SIDEBAR/NAVEGACION'
 ...
 
 
-FORK 4 'PROYECTOS CON CACHE' (v2)
+FORK 4 'PROYECTOS CON CACHE SENCILLO' (v2)
 ========================================================================
 
 Adjust the sidebar's width, reducing it by 65 pixels. Subsequently, reconfigure the main content area to accommodate this change, ensuring that the layout remains responsive and visually balanced across different screen sizes.
@@ -83,43 +83,77 @@ Develop a 'Projects' page within the dashboard interface. Implement data caching
 
 FORK 4 'faztcode5 - 5. PAGINA TAREAS CON CACHING, PAGINACION Y FILTROS' (v2.1)
 ========================================================================
+Write the scripts to create the following tables and schemas:
+  - 'status' table:
+		- id (int, PK)
+		- status_name (varchar)
+  - 'tasks' table:
+		- id (int, PK)			
+		- task_name (varchar)
+		- project_id (int, FK linked to projects.id table.column)
+		- status_id (int, FK linked to status.id table.column)
+    - progress (int)
+    - due_date (date)
+    - created_by (int, FK linked to users.id table.column)
 
-crea la pagina de tareas dentro del dashboard. implementa cache de datos para evitar recarga permanentemente. usa useEffect() en Client Component. pon boton de reload con icono para recargar
+let's add some fake data
+  - 'status' table: add 'Active', 'Completed', 'Pending', 'On Hold'
+  - 'items' table: add 10000 tasks this way:
+		loop 10000 times
+			task_name = 'Task '+id
+			project_id = id selected ramdomly from the 'projects' table
+			status_id = selected ramdomly from the 'status' table
+      progress = random number between 0 and 100
+      due_date = random date AFTER 01/01/2023
+      created_by = id selected ramdomly from the 'users' table
+			add record
+		end loop
 
-Develop a 'Tasks' page within the dashboard interface. Implement data caching to optimize performance and prevent constant reloading of project data. Utilize the `useEffect()` hook within a Client Component to manage data fetching and updates. Include a reload button with an appropriate icon to allow users to manually refresh the project data. Ensure that the sidebar and header components maintain a fixed, static position throughout the user's interaction with the 'Tasks' page.
+ACA VOY
+***************************
 
-It should be that once a change is made to the database, the DOM is then updated. This ensures data consistency between what's displayed and what's stored in the database. If the database operation fails, we show an error toast and don't update the UI.
+Develop a 'Tasks' page within the dashboard interface. 
+	- remove cards with simulate data
+  - show table with records from the 'tasks' table and its linked tables, showing the following columns:
+		- Task
+		- Project
+    - Status
+		- Progress
+		- Due Date
+		- Created By
+    - Edit and update option icons
+	- The add or edit option icons should be linked to a modal window with a form so that the user can create or modify its data.
+  - Implement 'Server-Side Pagination' with @supabase/supabase-js (100 records per page) to avoid sending a massive amount of data over the network in a single request and 'List Virtualization' (Windowing - 20 records height) with `@tanstack/react-virtual` to avoid rendering a huge number of DOM elements at once. 
+  - Create a cache outside the component (Global Cache) that persists across navigation
+  - Include a reload button with an appropriate icon to allow users to manually refresh the tasks data. 
+  - It should be that once a change is made to the database, the DOM is then updated. This ensures data consistency between what's displayed and what's stored in the database. The DB information should not be reloaded after any CRUD operation.
+  - If the database operation fails, we show an error toast and don't update the UI.
+	- Filter
+    - At the top of the table, users should be able to filter information by:
+      - Project
+      - Status
+      - User (Created By)
+    - Put a filter button after the comboboxes to apply the filter. 
+    - Filter should not be triggered by changing any of the comboboxes.
+
+CRUD operations:
+  - Addition and editing form, along with any associated warnings or prompts, should be displayed within modal window on top of the current page
+  - Ensure that all create, read, update, and delete (CRUD) operations once performed do not require a page reload, providing an instant update to the Document Object Model (DOM). 
+  * Before deletion of a task, display a confirmation message within a modal window to confirm the action.
+* Ensure that the sidebar and header components maintain a fixed, static position throughout the user's interaction with the 'Tasks' page.
+
+
 
 ------
 ///// ME LO SALTE
 en el dashboard implementa cache de datos para evitar recarga permanentemente. usa fetch() en Server Component. pon boton de reload con icono para recargar
 OJO -> en desarrollo continua cargando siempre de la db pero en produccion el comportamiento ya debe ser el esperado
 
-FORK 4 'FORMULARIOS'
-========================================================================
-
-crea formulario para adicionar/editar proyectos en la db de Supabase
-las operaciones de añadir, editar y eliminar deben actualizar el DOM de forma instantánea sin recargar la página, ni recargar el dashboard. mensaje de confirmación al eliminar debe presentarse en modal
-
-Develop a form to facilitate the addition and editing of project entries within a Supabase database. Implement functionality for adding new projects, modifying existing project details, and deleting projects. Ensure that all create, read, update, and delete (CRUD) operations are performed without requiring a page reload, providing an instant update to the Document Object Model (DOM). Before deletion of a project, display a confirmation message within a modal window to confirm the action.
-------
-
-
-haz la integracion
-
-editar y adicionar en supabase. implementa inmediato
-
-quita */
 
 crear relacion entre tablas
 subiendo la imagen de la relación entre projects y projects_status por status_id
   -> implement 
 
-crea formulario para adicionar/editar tareas. las operaciones de añadir, editar y eliminar deben actualizar el DOM de forma instantánea sin recargar la página y recargar el dashboard actualiza dashboard
-
-aqui aparecía ajustada a la la derecha la pagina de tareas
-
-reescribe project-chart.tsx que está truncado
 
 FORK 'ADMON USUARIOS'
 -----------------------
@@ -140,6 +174,17 @@ FORK 'ADMON USUARIOS'
 crea pagina con formulario para adicionar/editar usuarios. usa grupo de Checkboxes para asignacion de roles. las operaciones de añadir, editar y eliminar deben actualizar el DOM de forma instantánea sin recargar la página. mensaje de confirmación al eliminar en modal. solo los usuarios con rol sysadmin y admin tienen acceso a esta página
 
 
+FORK SEGURIDAD
+-----------------------
+POR CADA PAGINA....
+	- Users granted with the 'sys_admin', 'facility_admin', 'facility_operator' and 'user' roles can:
+		- see the `Items` option menu on the Sidebar
+		- access this page.
+	- CRUD operations should be able to be performed on this table (items) as follows:
+		- 'sys_admin' role: all operations
+		- 'facility_admin' role: Retreive
+		- 'facility_operator' role: Retreive
+		- 'user' role: Retreive
 
 
 
