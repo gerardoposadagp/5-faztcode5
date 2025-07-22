@@ -50,8 +50,12 @@ Signin Page:
   implementar el modal de perfil como un **componente de diálogo cliente-side** directamente dentro del `DashboardHeader`. 
   /// no se usó.
 
+FORK 3 'DASHBOARD/HEADER/SIDEBAR/NAVEGACION' 
 
-FORK 3 'PROYECTOS CON CACHE' (v2)
+...
+
+
+FORK 4 'PROYECTOS CON CACHE' (v2)
 ========================================================================
 
 Adjust the sidebar's width, reducing it by 65 pixels. Subsequently, reconfigure the main content area to accommodate this change, ensuring that the layout remains responsive and visually balanced across different screen sizes.
@@ -62,17 +66,8 @@ Adjust the sidebar's width, reducing it by 65 pixels. Subsequently, reconfigure 
 
 crea la pagina de proyectos dentro del dashboard. implementa cache de datos para evitar recarga permanentemente. usa useEffect() en Client Component. pon boton de reload con icono para recargar. sidebar y header deben permanecer estaticos
 
-Develop a 'Projects' page within the dashboard interface. Implement data caching to optimize performance and prevent constant reloading of project data. Utilize  SWR for robust caching. Include a reload button with an appropriate icon to allow users to manually refresh the project data. Ensure that the sidebar and header components maintain a fixed, static position throughout the user's interaction with the 'Projects' page.
+Develop a 'Projects' page within the dashboard interface. Implement data caching to optimize performance and prevent constant reloading of project data. Utilize SWR for robust caching. Include a reload button with an appropriate icon to allow users to manually refresh the project data. Ensure that the sidebar and header components maintain a fixed, static position throughout the user's interaction with the 'Projects' page.
 ------
-
-FORK 4 'TAREAS CON CACHE' (v2.1)
-========================================================================
-
-crea la pagina de tareas dentro del dashboard. implementa cache de datos para evitar recarga permanentemente. usa useEffect() en Client Component. pon boton de reload con icono para recargar
-
-Develop a 'Tasks' page within the dashboard interface. Implement data caching to optimize performance and prevent constant reloading of project data. Utilize the `useEffect()` hook within a Client Component to manage data fetching and updates. Include a reload button with an appropriate icon to allow users to manually refresh the project data. Ensure that the sidebar and header components maintain a fixed, static position throughout the user's interaction with the 'Tasks' page.
-
-It should be that once a change is made to the database, the DOM is then updated. This ensures data consistency between what's displayed and what's stored in the database. If the database operation fails, we show an error toast and don't update the UI.
 
 **Global Cache Object**: Created a cache outside the component that persists across navigation
 **Cache Validation**: 5-minute cache duration with timestamp checking
@@ -84,6 +79,16 @@ It should be that once a change is made to the database, the DOM is then updated
 **Return visits**: Uses cached data if still valid (< 5 minutes old)
 **CRUD operations**: Updates both local state and cache immediately
 **Manual refresh**: Invalidates cache and forces fresh fetch
+
+
+FORK 4 'faztcode5 - 5. PAGINA TAREAS CON CACHING, PAGINACION Y FILTROS' (v2.1)
+========================================================================
+
+crea la pagina de tareas dentro del dashboard. implementa cache de datos para evitar recarga permanentemente. usa useEffect() en Client Component. pon boton de reload con icono para recargar
+
+Develop a 'Tasks' page within the dashboard interface. Implement data caching to optimize performance and prevent constant reloading of project data. Utilize the `useEffect()` hook within a Client Component to manage data fetching and updates. Include a reload button with an appropriate icon to allow users to manually refresh the project data. Ensure that the sidebar and header components maintain a fixed, static position throughout the user's interaction with the 'Tasks' page.
+
+It should be that once a change is made to the database, the DOM is then updated. This ensures data consistency between what's displayed and what's stored in the database. If the database operation fails, we show an error toast and don't update the UI.
 
 ------
 ///// ME LO SALTE
