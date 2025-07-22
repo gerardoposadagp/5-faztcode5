@@ -74,7 +74,16 @@ Develop a 'Tasks' page within the dashboard interface. Implement data caching to
 
 It should be that once a change is made to the database, the DOM is then updated. This ensures data consistency between what's displayed and what's stored in the database. If the database operation fails, we show an error toast and don't update the UI.
 
+**Global Cache Object**: Created a cache outside the component that persists across navigation
+**Cache Validation**: 5-minute cache duration with timestamp checking
+**Smart Fetching**: Only fetches from database if cache is invalid or empty
+**Cache Updates**: Updates cache whenever CRUD operations succeed
+**Visual Feedback**: Shows cache age in the UI
 
+**First visit**: Fetches from database and caches the result
+**Return visits**: Uses cached data if still valid (< 5 minutes old)
+**CRUD operations**: Updates both local state and cache immediately
+**Manual refresh**: Invalidates cache and forces fresh fetch
 
 ------
 ///// ME LO SALTE
