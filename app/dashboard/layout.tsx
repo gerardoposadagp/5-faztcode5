@@ -9,7 +9,7 @@ import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { SidebarUserMenu } from "@/components/user-menu"
 import { DashboardHeader } from "@/components/dashboard-header"
-import { ProjectsCacheProvider } from "@/components/projects-cache-provider"
+import { Toaster } from "@/components/ui/toaster"
 
 export default async function DashboardLayout({
   children,
@@ -64,61 +64,60 @@ export default async function DashboardLayout({
 
     return (
       <Suspense>
-        <ProjectsCacheProvider>
-          <div className="grid min-h-screen w-full md:grid-cols-[155px_1fr] lg:grid-cols-[215px_1fr]">
-            <div className="hidden border-r bg-muted/40 md:block">
-              <div className="flex h-full max-h-screen flex-col gap-2">
-                <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-                  <Link href="/" className="flex items-center gap-2 font-semibold">
-                    <MountainIcon className="h-6 w-6" />
-                    <span className="">ProjeX</span>
-                  </Link>
-                </div>
-                <div className="flex-1 overflow-auto py-2">
-                  <DashboardNav />
-                </div>
-                <div className="mt-auto p-4 border-t">
-                  <SidebarUserMenu userFullName={userFullName} userEmail={userEmail} userRoles={userRoles} />
-                </div>
+        <div className="grid min-h-screen w-full md:grid-cols-[155px_1fr] lg:grid-cols-[215px_1fr]">
+          <div className="hidden border-r bg-muted/40 md:block">
+            <div className="flex h-full max-h-screen flex-col gap-2">
+              <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+                <Link href="/" className="flex items-center gap-2 font-semibold">
+                  <MountainIcon className="h-6 w-6" />
+                  <span className="">ProjeX</span>
+                </Link>
+              </div>
+              <div className="flex-1 overflow-auto py-2">
+                <DashboardNav />
+              </div>
+              <div className="mt-auto p-4 border-t">
+                <SidebarUserMenu userFullName={userFullName} userEmail={userEmail} userRoles={userRoles} />
               </div>
             </div>
-            <div className="flex flex-col">
-              <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
-                <Sheet>
-                  <SheetTrigger asChild>
-                    <Button variant="outline" size="icon" className="shrink-0 md:hidden bg-transparent">
-                      <PanelLeft className="h-5 w-5" />
-                      <span className="sr-only">Toggle navigation menu</span>
-                    </Button>
-                  </SheetTrigger>
-                  <SheetContent side="left" className="flex flex-col p-0">
-                    <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-                      <Link href="/" className="flex items-center gap-2 font-semibold">
-                        <MountainIcon className="h-6 w-6" />
-                        <span className="">ProjeX</span>
-                      </Link>
-                    </div>
-                    <div className="flex-1 overflow-auto py-2">
-                      <DashboardNav />
-                    </div>
-                  </SheetContent>
-                </Sheet>
-                <DashboardHeader
-                  userFullName={userFullName}
-                  userEmail={userEmail}
-                  userRoles={userRoles}
-                  userProfile={{
-                    fullName: profile.full_name || "",
-                    address: profile.address || "",
-                    phoneNumber: profile.phone_number || "",
-                    age: profile.age || 0,
-                  }}
-                />
-              </header>
-              <div className="flex-1 overflow-auto pt-[60px]">{children}</div>
-            </div>
           </div>
-        </ProjectsCacheProvider>
+          <div className="flex flex-col">
+            <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="icon" className="shrink-0 md:hidden bg-transparent">
+                    <PanelLeft className="h-5 w-5" />
+                    <span className="sr-only">Toggle navigation menu</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="flex flex-col p-0">
+                  <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+                    <Link href="/" className="flex items-center gap-2 font-semibold">
+                      <MountainIcon className="h-6 w-6" />
+                      <span className="">ProjeX</span>
+                    </Link>
+                  </div>
+                  <div className="flex-1 overflow-auto py-2">
+                    <DashboardNav />
+                  </div>
+                </SheetContent>
+              </Sheet>
+              <DashboardHeader
+                userFullName={userFullName}
+                userEmail={userEmail}
+                userRoles={userRoles}
+                userProfile={{
+                  fullName: profile.full_name || "",
+                  address: profile.address || "",
+                  phoneNumber: profile.phone_number || "",
+                  age: profile.age || 0,
+                }}
+              />
+            </header>
+            <div className="flex-1 overflow-auto pt-[60px]">{children}</div>
+          </div>
+        </div>
+        <Toaster />
       </Suspense>
     )
   } catch (error) {

@@ -51,7 +51,7 @@ Signin Page:
   /// no se usó.
 
 
-FORK 3 'DASHBOARD, TAREAS Y PROYECTOS CON CACHE' (v2)
+FORK 3 'PROYECTOS CON CACHE' (v2)
 ========================================================================
 
 Adjust the sidebar's width, reducing it by 65 pixels. Subsequently, reconfigure the main content area to accommodate this change, ensuring that the layout remains responsive and visually balanced across different screen sizes.
@@ -64,15 +64,24 @@ crea la pagina de proyectos dentro del dashboard. implementa cache de datos para
 
 Develop a 'Projects' page within the dashboard interface. Implement data caching to optimize performance and prevent constant reloading of project data. Utilize  SWR for robust caching. Include a reload button with an appropriate icon to allow users to manually refresh the project data. Ensure that the sidebar and header components maintain a fixed, static position throughout the user's interaction with the 'Projects' page.
 ------
+
+FORK 4 'TAREAS CON CACHE' (v2.1)
+========================================================================
+
 crea la pagina de tareas dentro del dashboard. implementa cache de datos para evitar recarga permanentemente. usa useEffect() en Client Component. pon boton de reload con icono para recargar
 
 Develop a 'Tasks' page within the dashboard interface. Implement data caching to optimize performance and prevent constant reloading of project data. Utilize the `useEffect()` hook within a Client Component to manage data fetching and updates. Include a reload button with an appropriate icon to allow users to manually refresh the project data. Ensure that the sidebar and header components maintain a fixed, static position throughout the user's interaction with the 'Tasks' page.
+
+It should be that once a change is made to the database, the DOM is then updated. This ensures data consistency between what's displayed and what's stored in the database. If the database operation fails, we show an error toast and don't update the UI.
+
+
+
 ------
 ///// ME LO SALTE
 en el dashboard implementa cache de datos para evitar recarga permanentemente. usa fetch() en Server Component. pon boton de reload con icono para recargar
 OJO -> en desarrollo continua cargando siempre de la db pero en produccion el comportamiento ya debe ser el esperado
 
-FORK 'FORMULARIOS'
+FORK 4 'FORMULARIOS'
 ========================================================================
 
 crea formulario para adicionar/editar proyectos en la db de Supabase

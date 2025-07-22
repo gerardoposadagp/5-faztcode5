@@ -78,3 +78,7 @@ En cuanto a la limpieza, aquí tienes algunas consideraciones:
 4. **`prefetch={false}` en `components/dashboard/sidebar.tsx`:** Esto también es una optimización intencional para evitar que Next.js precargue las páginas al pasar el ratón por encima de los enlaces de la barra lateral, lo que causaba recargas de datos no deseadas. No debes eliminarlo si quieres mantener este comportamiento.
 
 -----
+
+otra estrategia de caching...
+
+To truly implement persistent client-side caching across navigations in a Next.js Client Component, we should use a dedicated data fetching library like [SWR](https://swr.vercel.app/) (Stale-While-Revalidate) . SWR is built by the Next.js team and is highly recommended for client-side data fetching because it handles caching, revalidation, focus tracking, and more, automatically persisting data even when components unmount and remount.

@@ -19,6 +19,7 @@ interface DeleteConfirmationModalProps {
   confirmText?: string
   cancelText?: string
   isConfirming?: boolean
+  error?: string | null
 }
 
 export function DeleteConfirmationModal({
@@ -30,6 +31,7 @@ export function DeleteConfirmationModal({
   confirmText = "Delete",
   cancelText = "Cancel",
   isConfirming = false,
+  error = null,
 }: DeleteConfirmationModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -38,6 +40,7 @@ export function DeleteConfirmationModal({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
+        {error && <p className="text-sm text-red-500 text-center">{error}</p>}
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isConfirming}>
             {cancelText}
