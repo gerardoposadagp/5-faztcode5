@@ -2,8 +2,8 @@
 PROMPT
 ========================================================================
 
-FORK 'LANDING/DASHBOARD/SIDEBAR/NAVEGACION'
------------------------
+FORK 1 'LANDING/DASHBOARD/SIDEBAR/NAVEGACION'
+========================================================================
 
 con imagen de dribble
 crea una aplicacion de administracion de proyectos y tareas usando next.js, chadcn que tenga landing page con CTA, paginas de signin, signup y dashboard con sidebar fijo a la izquierda no colapsable con las siguientes opciones: Dashboard, Proyectos, Tareas, Ajustes, Soporte y 'Admon usuarios' crea sus respectivas paginas
@@ -16,19 +16,15 @@ escogiendo dropdownmenu triger
 colocale un icono user
 
 
-FORK 'SIGNIN/SIGNUP/ROLES/PERFILES'
------------------------
+FORK 2 'SIGNIN/SIGNUP/ROLES/PERFILES'
+========================================================================
 
 // escoger modelo large
-crear paginas independientes de:
-  - signup (email, contraseña y confirmar contraseña), sin envio de correo para confirmar. Multiples roles por usuario: 'sysadmin', 'admin', 'user' (tabla 'roles'). Cuando un usuario haga signup por primera vez:
-    - debe quedar con rol 'user' (tabla 'user_roles')
-    - debe adicionar a la tabla 'user_profiles' su registro. la columna 'profile_status' deben estar configurado en la db con valor 0 por defecto y 'activo' en 1 por defecto.
-  - signin (email, contraseña). Si el signin es exitoso y 'profile_status' es 0, debe presentar formulario pidiendo nombre completo, direccion, telefono y edad, con los botones 'Guardar' y 'Ahora no'. Si escoge 'Guardar', guardar datos en tabla 'user_profiles' con profile_status en 1 y redirigir a dashboard. Si escoge 'Ahora no',no guardar datos y redirigir a dashboard.
-  - ambos formularios y advertencias deben presentarse en modal
-  
+
 Develop independent signup and signin pages with the following specifications: 
+
 Signup Page: 
+
 * signup form, along with any associated warnings or prompts, should be displayed within modal window on top of the landing page
 * Implement a signup form with fields for email, password, and password confirmation. Do not include email confirmation functionality. 
 * Implement a multi-role system for users, including 'sysadmin', 'admin', and 'user' roles, managed within a 'roles' table. 
@@ -36,6 +32,7 @@ Signup Page:
 * Automatically create a corresponding entry in the 'user_profiles' table for each new user. In the database, set the 'profile_status' column to 0 by default and the 'active' column to 1 by default
 
 Signin Page: 
+
 * signin form, along with any associated warnings or prompts, should be displayed within modal window on top of the landing page, including the complete profile form
 * Implement a signin form with fields for email and password. 
 * Upon successful signin, check the 'profile_status' of the user. If 'profile_status' is 0, present a modal form requesting the user's full name, address, phone number, and age, with 'Save' and 'Not Now' buttons. 
@@ -43,44 +40,47 @@ Signin Page:
 * If the user selects 'Not Now', do not save the data and redirect to the dashboard. Presentation: 
 * Both signup and signin forms, along with any associated warnings or prompts, should be displayed within modal windows.
 * closing the complete profile form with the cross at right top corner should redirect to dashboard
+* In the application's header, display the authenticated user's name and associated roles. 
 
+* Implement a sign-out process that, upon execution, redirects the user to the landing page.
 
-
-
-
-  escogiendo dropdownmenucontent
-  . mostrar el Nombre y los roles del usuario identicado en el header
-  . implementar proceso de signout, redirigiendo a landing page
-
-Enhance the application's header to display the authenticated user's name and assigned roles. Implement a sign-out process that, upon execution, redirects the user to the landing page.
-
-  
-  Escoger la opcion Mi Perfil.
+  Enlaza la opcion Mi Perfil 
   Al seleccinar la opción Mi Perfil presentar en modal formulario de profile con opciones Guardar y Cancelar, guardando la data y cerrando el modal. implementar el modal de perfil como un 'componente de diálogo cliente-side' directamente dentro del `DashboardHeader`. 
 
-  la ventana modal del profile debe aparecer en modal sobre el dashboard que se debe alcazar a ver con un gris mas transparente. despues de guardar o cancelar no debe recargarse el dashboard
-
-  implementar el modal de perfil como un **componente de diálogo cliente-side** directamente dentro del `DashboardHeader`.
-
-  Esto significa que el modal de perfil se abrirá y cerrará manejando un estado local, sin depender de la navegación de Next.js para su visualización, lo cual es el patrón que ya funciona en tu aplicación.
+  implementar el modal de perfil como un **componente de diálogo cliente-side** directamente dentro del `DashboardHeader`. 
+  /// no se usó.
 
 
-FORK 'DASHBOARD, TAREAS Y PROYECTOS CON CACHE'
------------------------
+FORK 3 'DASHBOARD, TAREAS Y PROYECTOS CON CACHE' (v2)
+========================================================================
+
+Adjust the sidebar's width, reducing it by 65 pixels. Subsequently, reconfigure the main content area to accommodate this change, ensuring that the layout remains responsive and visually balanced across different screen sizes.
+
 // hay 2 tecnicas de cache: useEffect() (mejor si hay filtros y manejo de sesiones) o fetch en Server Components (mejor si son registros publicos). preguntarle a chatgpt la diferencia
+// otra estrategia de cachin que parece que es mejor.... use SWR for robust caching.
+-----
 
-crea la pagina de proyectos dentro del dashboard. implementa cache de datos para evitar recarga permanentemente. usa useEffect() en Client Component. pon boton de reload con icono para recargar
+crea la pagina de proyectos dentro del dashboard. implementa cache de datos para evitar recarga permanentemente. usa useEffect() en Client Component. pon boton de reload con icono para recargar. sidebar y header deben permanecer estaticos
 
+Develop a 'Projects' page within the dashboard interface. Implement data caching to optimize performance and prevent constant reloading of project data. Utilize  SWR for robust caching. Include a reload button with an appropriate icon to allow users to manually refresh the project data. Ensure that the sidebar and header components maintain a fixed, static position throughout the user's interaction with the 'Projects' page.
+------
 crea la pagina de tareas dentro del dashboard. implementa cache de datos para evitar recarga permanentemente. usa useEffect() en Client Component. pon boton de reload con icono para recargar
 
+Develop a 'Tasks' page within the dashboard interface. Implement data caching to optimize performance and prevent constant reloading of project data. Utilize the `useEffect()` hook within a Client Component to manage data fetching and updates. Include a reload button with an appropriate icon to allow users to manually refresh the project data. Ensure that the sidebar and header components maintain a fixed, static position throughout the user's interaction with the 'Tasks' page.
+------
+///// ME LO SALTE
 en el dashboard implementa cache de datos para evitar recarga permanentemente. usa fetch() en Server Component. pon boton de reload con icono para recargar
 OJO -> en desarrollo continua cargando siempre de la db pero en produccion el comportamiento ya debe ser el esperado
 
 FORK 'FORMULARIOS'
------------------------
+========================================================================
 
-crea formulario para adicionar/editar proyectos 
-las operaciones de añadir, editar y eliminar deben actualizar el DOM de forma instantánea sin recargar la página y recargar el dashboard. mensaje de confirmación al eliminar en modal
+crea formulario para adicionar/editar proyectos en la db de Supabase
+las operaciones de añadir, editar y eliminar deben actualizar el DOM de forma instantánea sin recargar la página, ni recargar el dashboard. mensaje de confirmación al eliminar debe presentarse en modal
+
+Develop a form to facilitate the addition and editing of project entries within a Supabase database. Implement functionality for adding new projects, modifying existing project details, and deleting projects. Ensure that all create, read, update, and delete (CRUD) operations are performed without requiring a page reload, providing an instant update to the Document Object Model (DOM). Before deletion of a project, display a confirmation message within a modal window to confirm the action.
+------
+
 
 haz la integracion
 
